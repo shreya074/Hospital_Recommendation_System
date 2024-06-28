@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Recommendation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #3498db;
+        }
+
+        form {
+            display: flex;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #recommendations {
+            margin-top: 20px;
+        }
+
+        /* Optional: Add more styling to enhance the appearance */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hospital Recommendation System</h1>
+        <form id="searchForm">
+            <input type="text" id="searchInput" placeholder="Enter your search query...">
+            <button type="button" onclick="getRecommendations()">Get Recommendations</button>
+        </form>
+        <div id="recommendations">
+            <!-- Recommendations will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        function getRecommendations() {
+            var searchQuery = document.getElementById('searchInput').value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    var recommendations = JSON.parse(xhr.responseText);
+                    displayRecommendations(recommendations);
+                }
+            };
+            xhr.open("POST", "/recommend", true);
+            xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhr.send(JSON.stringify({ query: searchQuery }));
+        }
+
+        function displayRecommendations(recommendations) {
+            var recommendationsContainer = document.getElementById('recommendations');
+            recommendationsContainer.innerHTML = '';
+
+            if (recommendations.length === 0) {
+                recommendationsContainer.innerHTML = '<p>No recommendations found.</p>';
+            } else {
+                var ul = document.createElement('ul');
+                recommendations.forEach(function (recommendation) {
+                    var li = document.createElement('li');
+                    li.textContent = recommendation;
+                    ul.appendChild(li);
+                });
+                recommendationsContainer.appendChild(ul);
+            }
+        }
+    </script>
+</body>
+</html>

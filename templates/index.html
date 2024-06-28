@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Recommendation</title>
+    <style>form {
+        max-width: 600px;
+        margin: 20px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+        text-align: left;
+    }
+    
+    select, input {
+        width: 80%;
+        padding: 10px;
+        margin: 8px 0;
+        box-sizing: border-box;
+    }
+    
+    input[type="text"] {
+        width: 100%;
+    }
+    
+    button {
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        padding: 12px 20px;
+        cursor: pointer;
+        border-radius: 3px;
+    }
+    
+    button:hover {
+        background-color: #2980b9;
+    }
+    
+    h2 {
+        color: #3498db;
+        margin-top: 20px;
+    }
+    
+    ul {
+        list-style-type: none;
+        padding: 0;
+    }
+    
+    li {
+        margin-bottom: 5px;
+    }
+    h2 {
+            color: #3498db;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        li {
+            margin-right: 20px;
+            margin-bottom: 20px;
+            width: calc(50% - 20px); /* Two columns with a margin between them */
+            box-sizing: border-box;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Hospital Recommendation System</h1>
+    
+    <form method="post" action="/recommend">
+        <label for="city">Select City:</label>
+        <select id="city" name="city">
+            <option value="City1">City1</option>
+            <option value="City2">City2</option>
+            <option value="City3">City3</option>
+        </select>
+        
+        <label for="specialty">Enter Specialty:</label>
+        <input type="text" id="specialty" name="specialty" required>
+        
+        <button type="submit">Recommend Hospitals</button>
+    </form>
+
+    {% if recommendations %}
+    <h2>Recommended Hospitals:</h2>
+    <ul>
+        {% for hospital in recommendations %}
+            <li>
+                <strong>{{ hospital['hospital_name'] }}</strong><br>
+                <span>Specialty: {{ hospital['specialty'] }}</span><br>
+                <span>Location: {{ hospital['location'] }}</span><br>
+                <span>Description: {{ hospital['description'] }}</span>
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if message %}
+    <p>{{ message }}</p>
+{% endif %}
+
+</body>
+</html>
